@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 26
+    compileSdkVersion 28
     defaultConfig {
         applicationId "fatossdk.kr.fatos.fatossdktest"
         minSdkVersion 20
@@ -9,6 +9,7 @@ android {
         versionCode 1
         versionName FATOSMAP_VERSION_NAME
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -24,30 +25,31 @@ repositories {
     }
 }
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'com.android.support:appcompat-v7:26.1.0'
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'com.android.support:appcompat-v7:28.0.0'
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
-    compile 'com.google.code.gson:gson:2.7'
-    compile 'com.google.android.gms:play-services-maps:10.2.1'
-    compile 'org.jetbrains:annotations-java5:15.0'
-    compile 'com.android.support:leanback-v17:26.1.0'
-    compile 'com.nineoldandroids:library:2.4.0'
-    compile 'com.daimajia.easing:library:1.0.1@aar'
-    compile 'com.daimajia.androidanimations:library:1.1.3@aar'
+    implementation 'com.android.support:appcompat-v7:28.0.0'
+    implementation 'com.google.code.gson:gson:2.7'
+    implementation 'com.google.android.gms:play-services-maps:12.0.1'
+    implementation 'org.jetbrains:annotations-java5:15.0'
+    implementation 'com.android.support:leanback-v17:28.0.0'
+    implementation 'com.nineoldandroids:library:2.4.0'
+    implementation 'com.daimajia.easing:library:1.0.1@aar'
+    implementation 'com.daimajia.androidanimations:library:1.1.3@aar'
     /* Fillable Loaders */
-    compile 'com.github.jorgecastilloprz:fillableloaders:1.02@aar'
-    compile 'com.google.protobuf:protobuf-java:3.0.0'
-    compile 'com.google.android.gms:play-services-location:10.2.1'
-    compile 'com.pnikosis:materialish-progress:1.0'
-    compile 'com.android.support:multidex:1.0.2'
+    implementation 'com.github.jorgecastilloprz:fillableloaders:1.02@aar'
+    implementation 'com.google.protobuf:protobuf-java:3.0.0'
+    implementation 'com.google.android.gms:play-services-location:12.0.1'
+    implementation 'com.pnikosis:materialish-progress:1.0'
+    implementation 'com.android.support:multidex:1.0.3'
 //    fileTree(dir: 'libs', include: '**/*.aar')
 //            .each { File file ->
-//        dependencies.add("compile", [name: file.name.lastIndexOf('.').with { it != -1 ? file.name[0..<it] : file.name }, ext: 'aar'])
+//        dependencies.add("implementation", [name: file.name.lastIndexOf('.').with { it != -1 ? file.name[0..<it] : file.name }, ext: 'aar'])
 //    }
 
-    compile(name:'fatos_map_sdk_v2.0.7', ext:'aar')
-    compile 'com.github.zzz40500:AndroidSweetSheet:1.1.0'
+    implementation(name:'fatos_map_sdk_v2.0.8', ext:'aar')
+    implementation 'com.github.zzz40500:AndroidSweetSheet:1.1.0'
 }
