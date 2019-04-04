@@ -1,4 +1,5 @@
 1	Overview
+
 1.1	Purpose
 This document defines each functions of the FATOS SDK sample and provides reference to the development of S/W using the FATOS SDK.
 
