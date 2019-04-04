@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<biz.fatossdk.exlib.fatoslayout.AMapSCRelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="fatossdk.kr.fatos.fatossdktest.FatosSDKMainActivity">
+
+    <biz.fatossdk.exlib.fatoslayout.AMapSCFrameLayout
+        android:id="@+id/layout_map"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:layout_centerHorizontal="true"
+        android:background="@color/titlebar_color"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <fragment
+            android:name="fatossdk.kr.fatos.fatossdktest.FatosSubMapFragment"
+            android:id="@+id/map_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+        <!-- 필요에 따라 쓴다 -->
+        <!--<fragment-->
+            <!--android:name="biz.fatossdk.fminterface.drivefragment.AMapSDKCommonRGInfoFragment"-->
+            <!--android:id="@+id/drive_ui_fragment"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent" />-->
+
+    </biz.fatossdk.exlib.fatoslayout.AMapSCFrameLayout>
+
+</biz.fatossdk.exlib.fatoslayout.AMapSCRelativeLayout>

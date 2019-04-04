@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<biz.fatossdk.exlib.fatoslayout.AMapSCRelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="fatossdk.kr.fatos.fatossdktest.FatosMapBaseSDKActivity">
+    <fragment
+        android:name="fatossdk.kr.fatos.fatossdktest.FatosRouteMapFragment"
+        android:id="@+id/map_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+
+    <!--<biz.fatossdk.exlib.fatoslayout.AMapSCLinearLayout-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="50dp"-->
+    <!--android:layout_centerHorizontal="true"-->
+    <!--android:background="@color/titlebar_color"-->
+    <!--android:gravity="center"-->
+    <!--android:orientation="horizontal">-->
+
+    <!--<Button-->
+    <!--android:id="@+id/pos_cancel_btn"-->
+    <!--android:layout_width="0dp"-->
+    <!--android:layout_weight="1"-->
+    <!--android:layout_height="50dp"-->
+    <!--android:layout_centerHorizontal="true"-->
+    <!--android:layout_marginLeft="43dp"-->
+    <!--android:background="@color/btnbg_ssplash"-->
+    <!--android:gravity="center"-->
+    <!--android:text="Route"-->
+    <!--android:textSize="15sp"-->
+    <!--android:textColor="@color/white" />-->
+
+    <!--<Button-->
+    <!--android:layout_marginLeft="10dp"-->
+    <!--android:layout_marginRight="43dp"-->
+    <!--android:id="@+id/pos_ok_btn"-->
+    <!--android:layout_width="0dp"-->
+    <!--android:layout_weight="1"-->
+    <!--android:layout_height="50dp"-->
+    <!--android:layout_centerHorizontal="true"-->
+    <!--android:background="@color/posagreeyesback"-->
+    <!--android:gravity="center"-->
+    <!--android:text="Search(서울)"-->
+    <!--android:textSize="15sp"-->
+    <!--android:textColor="@color/white" />-->
+
+    <!--</biz.fatossdk.exlib.fatoslayout.AMapSCLinearLayout>-->
+
+</biz.fatossdk.exlib.fatoslayout.AMapSCRelativeLayout>

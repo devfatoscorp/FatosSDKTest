@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<biz.fatossdk.exlib.fatoslayout.AMapSCRelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/rl"
+    tools:context="fatossdk.kr.fatos.fatossdktest.FatosSDKMainActivity">
+
+
+    <biz.fatossdk.exlib.fatoslayout.AMapSCLinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:weightSum="10"
+        >
+        <biz.fatossdk.exlib.fatoslayout.AMapSCLinearLayout
+            android:orientation="horizontal"
+            android:background="@color/titlebar_color"
+            android:gravity="left|center_vertical"
+            android:layout_gravity="left|center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.8">
+
+            <ImageButton
+                android:layout_marginTop="3dp"
+                android:id="@+id/button_menu"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:gravity="center|center_vertical"
+                android:layout_gravity="center|center_vertical"
+                android:adjustViewBounds="false"
+                android:background="@color/transparent"
+                android:scaleType="fitCenter"
+                android:src="@mipmap/ic_fatos" />
+
+            <TextView
+                android:layout_marginLeft="5dp"
+                android:id="@+id/fmp_txt_title"
+                android:gravity="left|center_vertical"
+                android:layout_gravity="left|center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textSize = "12dp"
+                android:text="Fatos SDK Sample"
+                android:textStyle="bold"
+                android:textColor="#ffffff"/>
+            <Button
+                android:id="@+id/fatos_button_1"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="30dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="13dp"
+                android:gravity="center"
+                android:text="Map"
+                android:textStyle="bold"
+                android:textColor="#ffffff"
+                android:background="@color/posagreeyesback"
+                android:textSize="15dp" />
+
+            <Button
+                android:id="@+id/fatos_button_2"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="30dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="3dp"
+                android:gravity="center"
+                android:text="Route"
+                android:textStyle="bold"
+                android:textColor="#ffffff"
+                android:background="@color/posagreeyesback"
+                android:textSize="15dp" />
+
+            <Button
+                android:id="@+id/fatos_button_3"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="30dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="3dp"
+                android:gravity="center"
+                android:text="Search"
+                android:textStyle="bold"
+                android:textColor="#ffffff"
+                android:background="@color/posagreeyesback"
+                android:textSize="15dp" />
+
+            <Button
+                android:id="@+id/fatos_button_4"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="30dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="3dp"
+                android:gravity="center"
+                android:text="etc"
+                android:textStyle="bold"
+                android:textColor="#ffffff"
+                android:background="@color/posagreeyesback"
+                android:textSize="15dp" />
+
+        </biz.fatossdk.exlib.fatoslayout.AMapSCLinearLayout>
+
+        <biz.fatossdk.exlib.fatoslayout.AMapSCLinearLayout
+            android:orientation="horizontal"
+            android:background="@color/titlebar_color"
+            android:gravity="left|center_vertical"
+            android:layout_gravity="left|center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.8">
+
+
+            <EditText android:id="@+id/sdk_poiname_edit_text"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:paddingLeft="38dp"
+                android:hint="enter your destination"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:windowSoftInputMode="stateAlwaysHidden"
+                android:imeOptions="flagNoExtractUi|actionSearch"
+                android:inputType="text"
+                android:textSize="18sp"
+                android:textColor="@color/black"
+                android:textColorHint="#6c92aa"
+                android:gravity="left|center_vertical"
+                />
+        </biz.fatossdk.exlib.fatoslayout.AMapSCLinearLayout>
+
+        <biz.fatossdk.exlib.fatoslayout.AMapSCRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="8.4">
+            <fragment
+                android:id="@+id/map_fragment"
+                android:name="fatossdk.kr.fatos.fatossdktest.FatosMapFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <fragment
+                android:id="@+id/drive_ui_fragment"
+                android:name="biz.fatossdk.fminterface.drivefragment.AMapSDKCommonRGInfoFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <!--<ListView-->
+                <!--android:id="@+id/list_poi_search_res"-->
+                <!--android:layout_width="fill_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:background="@color/white"-->
+                <!--android:cacheColorHint="#333333"-->
+                <!--android:divider="#e9e9e9"-->
+                <!--android:dividerHeight="1dp" />-->
+        </biz.fatossdk.exlib.fatoslayout.AMapSCRelativeLayout>
+    </biz.fatossdk.exlib.fatoslayout.AMapSCLinearLayout>
+
+
+
+
+    <!--<biz.fatossdk.exlib.fatoslayout.AMapSCFrameLayout-->
+        <!--android:id="@+id/layout_map"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="250dp"-->
+        <!--android:layout_centerHorizontal="true"-->
+        <!--android:background="@color/titlebar_color"-->
+        <!--android:gravity="center"-->
+        <!--android:orientation="horizontal">-->
+
+        <!--<fragment-->
+            <!--android:name="fatossdk.kr.fatos.fatossdktest.FatosMapFragment"-->
+            <!--android:id="@+id/map_fragment"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent" />-->
+        <!--<fragment-->
+            <!--android:name="biz.fatossdk.fminterface.drivefragment.AMapSDKCommonRGInfoFragment"-->
+            <!--android:id="@+id/drive_ui_fragment"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent" />-->
+
+    <!--</biz.fatossdk.exlib.fatoslayout.AMapSCFrameLayout>-->
+    <biz.fatossdk.exlib.fatoslayout.AMapSCLinearLayout
+        android:orientation="vertical"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/rginfo_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="11sp"
+            android:textAppearance="?android:attr/textAppearanceLarge"/>
+    </biz.fatossdk.exlib.fatoslayout.AMapSCLinearLayout>
+</biz.fatossdk.exlib.fatoslayout.AMapSCRelativeLayout>
