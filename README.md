@@ -79,6 +79,6 @@ Kindly send the requesting email to dev@fatoscorp.com, titled with [request a te
 
 We will send the key to you as early as possible.
 
-All the best
 
+All the best
 FATOS team
