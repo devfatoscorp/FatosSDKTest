@@ -73,7 +73,7 @@ When path discovery is complete, ‘the popup’ disappears and the path is expo
 λ	Starts the route guidance on that route through “Route  Start Route Guidance” button
 
 
-So, guys. Are you interested in testing FATOS sdk? Then, you need to get the test key. Kindly send the requesting email to devfatoscorp@fatoscorp.com , Titled with [request a test key]
+So, guys. Are you interested in testing FATOS sdk? Then, you need to get the test key. Kindly send the requesting email to dev@fatoscorp.com , Titled with [request a test key]
 We will send the key to you as early as possible.
 
 All the best
