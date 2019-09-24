@@ -36,6 +36,11 @@ public class FatosMapFragment extends AMapBaseFragment
     }
 
     @Override
+    public void mapMoveAniReset() {
+
+    }
+
+    @Override
     public void mapMoveDirectCurPos() {
 
     }
@@ -71,7 +76,7 @@ public class FatosMapFragment extends AMapBaseFragment
     }
 
     @Override
-    public void onMapLevelInOut(float v, float v1) {
+    public void onMapLevelInOut(float fLevel, float fTilt) {
 
     }
 
@@ -174,9 +179,37 @@ public class FatosMapFragment extends AMapBaseFragment
     }
 
     @Override
-    public void onUpdateMapLongTouch(float v, float v1) {
+    public void onUpdateMapLongTouch(float fX, float fY) {
 
     }
+
+    @Override
+    public void onUpdateTouchBegin(float fX, float fY) {
+
+    }
+
+    @Override
+    public void onUpdateTouchMove(float fX, float fY) {
+
+    }
+
+    @Override
+    public void onUpdateTouchEnd(float fX, float fY) {
+
+    }
+
+    @Override
+    public void onUpdate(FatosMainMapView.TouchInfo touchInfo) {
+
+    }
+
+//    @Override
+//    public void onUpdateMapTouch(float fX, float fY) {
+//
+//        if((getActivity()) != null) {
+//            ((FMBaseActivity) getActivity()).onUpdateMapTouch(fX, fY);
+//        }
+//    }
 
     @Override
     public void onUpdateMapMode(int nStatus) {

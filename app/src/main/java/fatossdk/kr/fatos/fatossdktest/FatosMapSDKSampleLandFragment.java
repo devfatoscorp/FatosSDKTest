@@ -137,6 +137,7 @@ public class FatosMapSDKSampleLandFragment extends AMapBaseFragment {
                 //((FatosMapBaseSDKLandActivity) getActivity()).showTbtLayout(false);
                 double dLonX = 126.767723;
                 double dLatY =  37.809287;
+                //m_FMInterface.FM_SetMapFireObjPosition(FMBaseActivity.onFatosMapListener,1,1,dLonX, dLatY,null);
                 m_FMInterface.FM_SetMapPosition(FMBaseActivity.onFatosMapListener,0,dLonX,dLatY);
             }
         });
@@ -164,8 +165,8 @@ public class FatosMapSDKSampleLandFragment extends AMapBaseFragment {
                 FMRoutePos endPos = new FMRoutePos();
                 FMRouteOption routeOpt = new FMRouteOption();
 
-                endPos.dLonX = 126.767723;
-                endPos.dLatY =37.809287;
+                endPos.dLonX = 126.997219;
+                endPos.dLatY = 37.2664398;
                 endPos.strPosName = "모듈 지상";
                 endPos.strFloor = "1F";
 
@@ -201,8 +202,8 @@ public class FatosMapSDKSampleLandFragment extends AMapBaseFragment {
                         "### cur pos  : " + driveinfo.getM_strCurPosName()+ " \n" +
                         "### cur lonx : " + driveinfo.getM_fCurLonX()+ " \n" +
                         "### cur laty : " + driveinfo.getM_fCurLatY()+ " \n" +
-                        "### maptouch lonx : " + driveinfo.getM_fMapTouchLonX()+ " \n" +
-                        "### maptouch laty : " + driveinfo.getM_fMapTouchLatY()+ " \n" +
+//                        "### maptouch lonx : " + driveinfo.getM_fMapTouchLonX()+ " \n" +
+//                        "### maptouch laty : " + driveinfo.getM_fMapTouchLatY()+ " \n" +
                         "### angle : " + driveinfo.getM_nCurAngle()+ " \n" +
                         "### gpsStatus : " + driveinfo.getM_nGpsStatus()+ " \n" +
                         "### mmStatus : " + driveinfo.getM_nMMStatus()+ " \n" +
@@ -212,7 +213,7 @@ public class FatosMapSDKSampleLandFragment extends AMapBaseFragment {
                         "### 지하도로 :  " + driveinfo.getM_nFloor()+ " \n" +
                         "### 목적지 남은거리: : " + updateTotalRemainDist(driveinfo.getM_nTotalRemainderDist())+ " \n" +
                         "### 목적지 남은시간 :  " + updateTotalRemainTime(driveinfo.getM_nServiceLinkRemainderTime())+ " \n" +
-                        "### 중심좌표 :  " + latlon[0] + ", " + latlon[1] + " \n" +
+                        "### 중심좌표 :  " + latlon[0] + ", " + latlon[1] + "거리 : " + driveinfo.getM_nTripDist() + "시간 : "+driveinfo.getM_nTripTime() + " \n" +
                         "### 경유지 수 :  " + driveinfo.getnViaTotalCount() +" \n";
 
 
@@ -315,8 +316,9 @@ public class FatosMapSDKSampleLandFragment extends AMapBaseFragment {
 
                 RoutePosition positionList1 = new RoutePosition();
 
-                positionList1.x = 127.46534606;
-                positionList1.y = 37.28005176;
+                //,
+                positionList1.x = 127.0691513;
+                positionList1.y = 37.251683;
                 positionList1.name = "이천시법원";
                 positionList1.addr = "경기 이천시 안흥동";
                 positionList1.bPassingPoint = false;
@@ -324,8 +326,8 @@ public class FatosMapSDKSampleLandFragment extends AMapBaseFragment {
                 positionList.add(positionList1);
 
                 RoutePosition positionList2 = new RoutePosition();
-                positionList2.x = 127.43412687;
-                positionList2.y = 37.27288535;
+                positionList2.x = 127.0445743;
+                positionList2.y = 37.261629;
                 positionList2.name = "이천시청";
                 positionList2.addr = "경기 이천시 중리동";
                 positionList2.bPassingPoint = false;
@@ -333,31 +335,32 @@ public class FatosMapSDKSampleLandFragment extends AMapBaseFragment {
                 positionList.add(positionList2);
 
                 RoutePosition positionList3 = new RoutePosition();
-                positionList3.x = 127.46534606;
-                positionList3.y = 37.28005176;
+
+                positionList3.x = 126.997219;
+                positionList3.y = 37.2664398;
                 positionList3.name = "이천종합버스터미널";
                 positionList3.addr = "경기 이천시 안흥동";
                 positionList2.bPassingPoint = true;
 
                 positionList.add(positionList3);
-
-                RoutePosition positionList4 = new RoutePosition();
-                positionList4.x = 127.44687558;
-                positionList4.y = 37.27780168;
-                positionList4.name = "이천시법원";
-                positionList4.addr = "경기 이천시 중리동";
-                positionList4.bPassingPoint = false;
-
-                positionList.add(positionList4);
-
-                RoutePosition positionList5 = new RoutePosition();
-                positionList5.x = 127.02779627;
-                positionList5.y = 37.49721313;
-                positionList5.name = "강남역[2호선]";
-                positionList5.addr = "서울 강남구 역삼동";
-                positionList5.bPassingPoint = false;
-
-                positionList.add(positionList5);
+//
+//                RoutePosition positionList4 = new RoutePosition();
+//                positionList4.x = 127.44687558;
+//                positionList4.y = 37.27780168;
+//                positionList4.name = "이천시법원";
+//                positionList4.addr = "경기 이천시 중리동";
+//                positionList4.bPassingPoint = false;
+//
+//                positionList.add(positionList4);
+//
+//                RoutePosition positionList5 = new RoutePosition();
+//                positionList5.x = 127.02779627;
+//                positionList5.y = 37.49721313;
+//                positionList5.name = "강남역[2호선]";
+//                positionList5.addr = "서울 강남구 역삼동";
+//                positionList5.bPassingPoint = false;
+//
+//                positionList.add(positionList5);
 
                 m_FMInterface.FM_RouteVol2_Via(new HttpResultHandler(FatosMapSDKSampleLandFragment.this),positionList);
             }
@@ -444,8 +447,8 @@ public class FatosMapSDKSampleLandFragment extends AMapBaseFragment {
                     "### cur pos  : " + driveinfo.getM_strCurPosName()+ " \n" +
                     "### cur lonx : " + driveinfo.getM_fCurLonX()+ " \n" +
                     "### cur laty : " + driveinfo.getM_fCurLatY()+ " \n" +
-                    "### maptouch lonx : " + driveinfo.getM_fMapTouchLonX()+ " \n" +
-                    "### maptouch laty : " + driveinfo.getM_fMapTouchLatY()+ " \n" +
+//                    "### maptouch lonx : " + driveinfo.getM_fMapTouchLonX()+ " \n" +
+//                    "### maptouch laty : " + driveinfo.getM_fMapTouchLatY()+ " \n" +
                     "### angle : " + driveinfo.getM_nCurAngle()+ " \n" +
                     "### gpsStatus : " + driveinfo.getM_nGpsStatus()+ " \n" +
                     "### mmStatus : " + driveinfo.getM_nMMStatus()+ " \n" +
@@ -455,7 +458,7 @@ public class FatosMapSDKSampleLandFragment extends AMapBaseFragment {
                     "### 지하도로 :  " + driveinfo.getM_nFloor()+ " \n" +
                     "### 목적지 남은거리: : " + updateTotalRemainDist(driveinfo.getM_nTotalRemainderDist())+ " \n" +
                     "### 목적지 남은시간 :  " + updateTotalRemainTime(driveinfo.getM_nServiceLinkRemainderTime())+ " \n" +
-                    "### 중심좌표 :  " + latlon[0] + ", " + latlon[1] + " \n" +
+                    "### 중심좌표 :  " + latlon[0] + ", " + latlon[1] + "거리 : " + driveinfo.getM_nTripDist() + "시간 : "+driveinfo.getM_nTripTime() + " \n" +
                     "### 경유지 수 :  " + driveinfo.getnViaTotalCount() +" \n";
 
             for(int i = 0 ; i < driveinfo.getnViaTotalCount() ; i++)

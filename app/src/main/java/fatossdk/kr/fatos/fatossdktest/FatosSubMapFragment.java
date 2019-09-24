@@ -66,7 +66,7 @@ public class FatosSubMapFragment extends AMapBaseFragment
     }
 
     @Override
-    public void onSetMapStatus(int i) {
+    public void onSetMapStatus(int nStatus) {
 
     }
 

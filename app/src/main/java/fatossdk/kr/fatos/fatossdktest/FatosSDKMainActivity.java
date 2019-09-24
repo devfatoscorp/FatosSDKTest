@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Process;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.Button;
@@ -17,6 +18,7 @@ import java.io.IOException;
 import biz.fatossdk.config.FatosBuildConfig;
 import biz.fatossdk.fminterface.FMBaseActivity;
 import biz.fatossdk.fminterface.FMInterface;
+import biz.fatossdk.navi.NativeNavi;
 import biz.fatossdk.newanavi.ANaviApplication;
 
 public class FatosSDKMainActivity extends FMBaseActivity {
@@ -29,7 +31,7 @@ public class FatosSDKMainActivity extends FMBaseActivity {
     private int m_iEngineInit = 0;
     Button m_test1Btn,m_test2Btn,m_test3Btn;
     // LGD용 Serial key
-    private String API_KEY = "5e6c686753643a73f364286b8f362d15";
+    private String API_KEY = "le6c68w34235327ll364286b8f362d12";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,12 +74,20 @@ public class FatosSDKMainActivity extends FMBaseActivity {
         });
 
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+        {
             int permissionResultWRITE_EXTERNAL_STORAGE = checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
             int permissionResultACCESS_FINE_LOCATION = checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION);
+            int permissionResultACCESS_READ_PHONE= checkSelfPermission(Manifest.permission.READ_PHONE_STATE);
+//            int permissionResultRECORD_AUDIO = checkSelfPermission(Manifest.permission.RECORD_AUDIO);
+
             if (permissionResultWRITE_EXTERNAL_STORAGE == PackageManager.PERMISSION_DENIED
-                    || permissionResultACCESS_FINE_LOCATION == PackageManager.PERMISSION_DENIED) {
-                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.ACCESS_FINE_LOCATION}, 1000);
+                    || permissionResultACCESS_FINE_LOCATION == PackageManager.PERMISSION_DENIED
+                    || permissionResultACCESS_READ_PHONE == PackageManager.PERMISSION_DENIED) {
+//                    || permissionResultRECORD_AUDIO == PackageManager.PERMISSION_DENIED) {
+                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.ACCESS_FINE_LOCATION,
+                        Manifest.permission.READ_PHONE_STATE}, 1000);
                 /*
                 if (shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                     AlertDialog.Builder dialog = new AlertDialog.Builder(FatosSplashVol2Activity.this);
@@ -200,22 +210,22 @@ public class FatosSDKMainActivity extends FMBaseActivity {
             }
 
             @Override
-            public void updateObjPickerInfo(int i, String s, String s1, double v, double v1) {
+            public void updateObjPickerInfo(int nType, String strKey, String strName, double nLong, double nLat) {
 
             }
 
             @Override
-            public void updateMapTouch(float v, float v1) {
+            public void updateMapTouch(float fX, float fY) {
 
             }
 
             @Override
-            public void updateMapLongTouch(float v, float v1) {
+            public void updateMapLongTouch(float fX, float fY) {
 
             }
 
             @Override
-            public void updateMapAngle(float v) {
+            public void updateMapAngle(float nAngle) {
 
             }
         });
@@ -233,7 +243,27 @@ public class FatosSDKMainActivity extends FMBaseActivity {
 
     @Override
     protected void onDestroy() {
+        if(NativeNavi.isLoaded())
+        {
+            if (NativeNavi.nativeIsRoute())
+            {
+                NativeNavi.nativeCancelRoute();
+            }
+        }
+
         releaseFatosAuto();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            finishAndRemoveTask();
+        }
+        else
+        {
+            finishAffinity();
+        }
+
+        System.exit(0);
+        Process.killProcess(Process.myPid());
+
         super.onDestroy();
     }
 }

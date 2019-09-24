@@ -59,7 +59,7 @@ public class FatosMapBaseSDKLandActivity extends FMBaseActivity implements OnFat
             NativeNavi.nativeStartRouteGuidance();
 
 
-        m_FMInterface.FM_SetMainMapViewListener(new ANaviApplication.MapStatusListener() {
+        m_FMInterface.FM_SetRouteDriveListener(new ANaviApplication.MapStatusListener() {
             @Override
             public void onRouteFinish() {
                 Log.e(TAG,"### onRouteFinish");
@@ -93,22 +93,22 @@ public class FatosMapBaseSDKLandActivity extends FMBaseActivity implements OnFat
             }
 
             @Override
-            public void updateObjPickerInfo(int i, String s, String s1, double v, double v1) {
+            public void updateObjPickerInfo(int nType, String strKey, String strName, double nLong, double nLat) {
 
             }
 
             @Override
-            public void updateMapTouch(float v, float v1) {
+            public void updateMapTouch(float fX, float fY) {
 
             }
 
             @Override
-            public void updateMapLongTouch(float v, float v1) {
+            public void updateMapLongTouch(float fX, float fY) {
 
             }
 
             @Override
-            public void updateMapAngle(float v) {
+            public void updateMapAngle(float nAngle) {
 
             }
         });
@@ -149,12 +149,12 @@ public class FatosMapBaseSDKLandActivity extends FMBaseActivity implements OnFat
     }
 
     @Override
-    public void updatePickerInfo(String s, int i, int i1) {
+    public void updatePickerInfo(String strID, int nLong, int nLat) {
 
     }
 
     @Override
-    public void updateMapTouch(float v, float v1) {
+    public void updateMapTouch(float fX, float fY) {
 
     }
 

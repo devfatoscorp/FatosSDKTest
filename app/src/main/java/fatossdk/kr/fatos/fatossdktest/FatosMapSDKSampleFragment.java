@@ -136,6 +136,7 @@ public class FatosMapSDKSampleFragment extends AMapBaseFragment {
                 //m_FMInterface.FM_SearchFireObj(1,"test", 1.f,1.f);
                 double dLonX = 126.767723;
                 double dLatY =  37.809287;
+                //m_FMInterface.FM_SetMapFireObjPosition(FMBaseActivity.onFatosMapListener,1,1,dLonX, dLatY,null);
                 m_FMInterface.FM_SetMapPosition(FMBaseActivity.onFatosMapListener,0,dLonX,dLatY);
                 // 삭제 시
                 // FM_DeleteFireObjPosition, FM_ClearFireObjPosition 사용
@@ -199,8 +200,8 @@ public class FatosMapSDKSampleFragment extends AMapBaseFragment {
                         "### cur pos  : " + driveinfo.getM_strCurPosName()+ " \n" +
                         "### cur lonx : " + driveinfo.getM_fCurLonX()+ " \n" +
                         "### cur laty : " + driveinfo.getM_fCurLatY()+ " \n" +
-                        "### maptouch lonx : " + driveinfo.getM_fMapTouchLonX()+ " \n" +
-                        "### maptouch laty : " + driveinfo.getM_fMapTouchLatY()+ " \n" +
+//                        "### maptouch lonx : " + driveinfo.getM_fMapTouchLonX()+ " \n" +
+//                        "### maptouch laty : " + driveinfo.getM_fMapTouchLatY()+ " \n" +
                         "### angle : " + driveinfo.getM_nCurAngle()+ " \n" +
                         "### gpsStatus : " + driveinfo.getM_nGpsStatus()+ " \n" +
                         "### 진입불가도로 : " + driveinfo.isM_bCannotEnterRoad()+ " \n" +
@@ -348,8 +349,8 @@ public class FatosMapSDKSampleFragment extends AMapBaseFragment {
                     "### cur pos  : " + driveinfo.getM_strCurPosName()+ " \n" +
                     "### cur lonx : " + driveinfo.getM_fCurLonX()+ " \n" +
                     "### cur laty : " + driveinfo.getM_fCurLatY()+ " \n" +
-                    "### maptouch lonx : " + driveinfo.getM_fMapTouchLonX()+ " \n" +
-                    "### maptouch laty : " + driveinfo.getM_fMapTouchLatY()+ " \n" +
+//                    "### maptouch lonx : " + driveinfo.getM_fMapTouchLonX()+ " \n" +
+//                    "### maptouch laty : " + driveinfo.getM_fMapTouchLatY()+ " \n" +
                     "### angle : " + driveinfo.getM_nCurAngle()+ " \n" +
                     "### gpsStatus : " + driveinfo.getM_nGpsStatus()+ " \n" +
                     "### 진입불가도로 : " + driveinfo.isM_bCannotEnterRoad()+ " \n" +

@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -27,6 +26,7 @@ import com.mingle.sweetpick.BlurEffect;
 import com.mingle.sweetpick.RecyclerViewDelegate;
 import com.mingle.sweetpick.SweetSheet;
 
+import java.io.ByteArrayOutputStream;
 import java.lang.ref.WeakReference;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -51,8 +51,10 @@ import biz.fatossdk.navi.NativeNavi;
 import biz.fatossdk.navi.RoutePosition;
 import biz.fatossdk.newanavi.ANaviApplication;
 import biz.fatossdk.newanavi.manager.AMapGoogleSearchUtil;
+import biz.fatossdk.newanavi.manager.AMapPositionManager;
 import biz.fatossdk.newanavi.splash.FatosToast;
 import biz.fatossdk.openapi.common.POIItem;
+import biz.fatossdk.openapi.common.TruckInfo;
 
 public class FatosMapBaseSDKActivity extends FMBaseActivity implements OnFatosMapBaseActivityListener {
     private ANaviApplication m_gApp;
@@ -110,7 +112,7 @@ public class FatosMapBaseSDKActivity extends FMBaseActivity implements OnFatosMa
             NativeNavi.nativeStartRouteGuidance();
 
 
-        m_FMInterface.FM_SetMainMapViewListener(new ANaviApplication.MapStatusListener() {
+        m_FMInterface.FM_SetRouteDriveListener(new ANaviApplication.MapStatusListener() {
             @Override
             public void onRouteFinish() {
                 Log.e(TAG,"### onRouteFinish");
@@ -118,8 +120,7 @@ public class FatosMapBaseSDKActivity extends FMBaseActivity implements OnFatosMa
 
             @Override
             public void onMapMove(boolean bMapMove) {
-                Log.e(TAG,"### FatosMapBaseSDKActivity onMapMove");
-
+//                Log.e(TAG,"### FatosMapBaseSDKActivity onMapMove");
                 m_FMInterface.FM_AutoSetMapCenter(bMapMove);
             }
 
@@ -144,22 +145,22 @@ public class FatosMapBaseSDKActivity extends FMBaseActivity implements OnFatosMa
             }
 
             @Override
-            public void updateObjPickerInfo(int i, String s, String s1, double v, double v1) {
+            public void updateObjPickerInfo(int nType, String strKey, String strName, double nLong, double nLat) {
 
             }
 
             @Override
-            public void updateMapTouch(float v, float v1) {
+            public void updateMapTouch(float fX, float fY) {
 
             }
 
             @Override
-            public void updateMapLongTouch(float v, float v1) {
+            public void updateMapLongTouch(float fX, float fY) {
 
             }
 
             @Override
-            public void updateMapAngle(float v) {
+            public void updateMapAngle(float nAngle) {
 
             }
         });
@@ -304,14 +305,13 @@ public class FatosMapBaseSDKActivity extends FMBaseActivity implements OnFatosMa
                     case EditorInfo.IME_ACTION_SEARCH:
                     case EditorInfo.IME_ACTION_DONE:
                     case EditorInfo.IME_ACTION_SEND:
+                        hideKeyBoard(editText);
                         if(editText.getText().toString().length()<1)
                         {
-                            hideKeyBoard(editText);
                             return false;
                         }
-                        m_AndroidProgressDlg = ProgressDialog.show(m_Context, "Fire SDK", "목적지 검색 중...",
+                        m_AndroidProgressDlg = ProgressDialog.show(m_Context, "Fatos SDK", "목적지 검색 중...",
                                 true, false);
-
                         m_FMInterface.FM_SearchPOI_Hybrid(new HttpResultHandler(FatosMapBaseSDKActivity.this),editText.getText().toString(),false);
                         break;
                     default:
@@ -368,19 +368,18 @@ public class FatosMapBaseSDKActivity extends FMBaseActivity implements OnFatosMa
     }
 
     @Override
-    public void updatePickerInfo(String s, int i, int i1) {
+    public void updatePickerInfo(String strID, int nLong, int nLat) {
 
     }
 
     @Override
-    public void updateMapTouch(float v, float v1) {
+    public void updateMapTouch(float fX, float fY) {
 
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
     }
 
 
@@ -432,24 +431,26 @@ public class FatosMapBaseSDKActivity extends FMBaseActivity implements OnFatosMa
                     case 0: // 재난 위치 보기
                         dLonX = 126.767723;
                         dLatY =  37.809287;
+                        //m_FMInterface.FM_SetMapFireObjPosition(FMBaseActivity.onFatosMapListener,1,1,dLonX, dLatY,null);
                         m_FMInterface.FM_SetMapPosition(FMBaseActivity.onFatosMapListener,0,dLonX,dLatY);
                         break;
                     case 1: // Sub Map 보기
                         Intent intentStartMain = new Intent(m_Context, FatosMapBaseSDKSubActivity.class);
                         startActivity(intentStartMain);
                         break;
-                    case 2: //
+                    case 2: // 전신주 보기
                     {
                         dLonX = 127.877723;
                         dLatY = 35.419287;
-                        m_FMInterface.FM_SetMapPosition(FMBaseActivity.onFatosMapListener,0, dLonX, dLatY);
+                        m_FMInterface.FM_SetMapPosition(FMBaseActivity.onFatosMapListener, 0,dLonX, dLatY);
                     }
                     break;
-                    case 3: //
+                    case 3: // 위험지역 사용자 폴리곤
                     {
+                        //m_FMInterface.FM_FireAddPolygon(1,1,true,null,null, Color.argb(255,0,0,0));
                         dLonX = 126.9999831;
                         dLatY = 37.5676009;
-                        m_FMInterface.FM_SetMapPosition(FMBaseActivity.onFatosMapListener,0, dLonX, dLatY);
+                        m_FMInterface.FM_SetMapPosition(FMBaseActivity.onFatosMapListener, 0,dLonX, dLatY);
                     }
                     break;
                 }
@@ -485,21 +486,26 @@ public class FatosMapBaseSDKActivity extends FMBaseActivity implements OnFatosMa
         menuEntity5.iconId = R.mipmap.curpos_2_5_2;
         menuEntity5.title = "ReRoute";
 
+        MenuEntity menuEntity6 = new MenuEntity();
+        menuEntity6.iconId = R.mipmap.curpos_2_5_2;
+        menuEntity6.title = "Get Route Summary";
+
         MenuEntity menuEntity7 = new MenuEntity();
         menuEntity7.iconId = R.mipmap.curpos_2_5_2;
-        menuEntity7.title = "Get Route Summary";
+        menuEntity7.title = "Start RouteGudiance";
 
         MenuEntity menuEntity8 = new MenuEntity();
         menuEntity8.iconId = R.mipmap.curpos_2_5_2;
-        menuEntity8.title = "Start RouteGudiance";
+        menuEntity8.title = "Select Route";
 
         MenuEntity menuEntity9 = new MenuEntity();
         menuEntity9.iconId = R.mipmap.curpos_2_5_2;
-        menuEntity9.title = "Select Route";
+        menuEntity9.title = "Route Summary Detail";
+
 
         MenuEntity menuEntity10 = new MenuEntity();
         menuEntity10.iconId = R.mipmap.curpos_2_5_2;
-        menuEntity10.title = "Route Summary Detail";
+        menuEntity10.title = "TruckRoute";
 
 
         list.add(menuEntity1);
@@ -507,6 +513,7 @@ public class FatosMapBaseSDKActivity extends FMBaseActivity implements OnFatosMa
         list.add(menuEntity3);
         list.add(menuEntity4);
         list.add(menuEntity5);
+        list.add(menuEntity6);
         list.add(menuEntity7);
         list.add(menuEntity8);
         list.add(menuEntity9);
@@ -522,14 +529,16 @@ public class FatosMapBaseSDKActivity extends FMBaseActivity implements OnFatosMa
         mSweetSheetforRoute.setOnMenuItemClickListener(new SweetSheet.OnMenuItemClickListener() {
             @Override
             public boolean onItemClick(int position, MenuEntity menuEntity1) {
+                Log.e(TAG,"RouteMenu item click : " + position);
                 if(position < 0)
                     return false;
 
                 switch (position) {
-                    case 0: // 경로 탐색 - (경유지 고정)
-                        m_AndroidProgressDlg = ProgressDialog.show(m_Context, "Fire SDK", "경로 탐색 중...",
+                    case 0: {// 경로 탐색 - (경유지 고정)
+                        m_AndroidProgressDlg = ProgressDialog.show(m_Context, "Fatos SDK", "경로 탐색 중...",
                                 true, false);
                         // 경유지 정보 좌표 List
+                        //getViaPoiList 객체가 m_gApp.getM_PosList이므로
                         List<RoutePosition> positionList = m_FMInterface.FM_GetViaPOIList();
                         positionList.clear();
 
@@ -551,7 +560,7 @@ public class FatosMapBaseSDKActivity extends FMBaseActivity implements OnFatosMa
                         positionList1.bPassingPoint = false;
 
                         positionList.add(positionList1);
-
+//
                         RoutePosition positionList2 = new RoutePosition();
                         positionList2.x = 127.43412687;
                         positionList2.y = 37.27288535;
@@ -560,24 +569,24 @@ public class FatosMapBaseSDKActivity extends FMBaseActivity implements OnFatosMa
                         positionList2.bPassingPoint = false;
 
                         positionList.add(positionList2);
-
-                        RoutePosition positionList3 = new RoutePosition();
-                        positionList3.x = 127.46534606;
-                        positionList3.y = 37.28005176;
-                        positionList3.name = "이천종합버스터미널";
-                        positionList3.addr = "경기 이천시 안흥동";
-                        positionList2.bPassingPoint = true;
-
-                        positionList.add(positionList3);
-
-                        RoutePosition positionList4 = new RoutePosition();
-                        positionList4.x = 127.44687558;
-                        positionList4.y = 37.27780168;
-                        positionList4.name = "이천시법원";
-                        positionList4.addr = "경기 이천시 중리동";
-                        positionList4.bPassingPoint = false;
-
-                        positionList.add(positionList4);
+//
+//                        RoutePosition positionList3 = new RoutePosition();
+//                        positionList3.x = 127.46534606;
+//                        positionList3.y = 37.28005176;
+//                        positionList3.name = "이천종합버스터미널";
+//                        positionList3.addr = "경기 이천시 안흥동";
+//                        positionList2.bPassingPoint = true;
+//
+//                        positionList.add(positionList3);
+//
+//                        RoutePosition positionList4 = new RoutePosition();
+//                        positionList4.x = 127.44687558;
+//                        positionList4.y = 37.27780168;
+//                        positionList4.name = "이천시법원";
+//                        positionList4.addr = "경기 이천시 중리동";
+//                        positionList4.bPassingPoint = false;
+//
+//                        positionList.add(positionList4);
 
                         RoutePosition positionList5 = new RoutePosition();
                         positionList5.x = 127.02779627;
@@ -588,50 +597,136 @@ public class FatosMapBaseSDKActivity extends FMBaseActivity implements OnFatosMa
 
                         positionList.add(positionList5);
 
-                        m_FMInterface.FM_RouteVol2_Via(new HttpResultHandler(FatosMapBaseSDKActivity.this),positionList);
-                        break;
-                    case 1: // 경로취소
+                        m_FMInterface.FM_RouteVol2(new HttpResultHandler(FatosMapBaseSDKActivity.this), positionList);
+//                        m_FMInterface.FM_RouteVol2(positionList, new ANaviApplication.RouteListenerCallback() {
+//                            @Override
+//                            public void onRouteStart() {
+//
+//                            }
+//
+//                            @Override
+//                            public void onRouteData(ByteArrayOutputStream buffer, boolean bLocalResult) {
+//
+//                            }
+//
+//                            @Override
+//                            public void onErrorCode(int nErrorCode) {
+//
+//                            }
+//                        });
+                    }
+                    break;
+                    case 1: { // 경로취소
                         m_FMInterface.FM_CancelRoute();
                         updateCancelRoute();
-                        break;
-                    case 2: // 주행 정보 가져오기
+                    }
+                    break;
+                    case 2: { // 주행 정보 가져오기
                         GetDriveInfo_Sample();
-                        break;
-                    case 3: // 경로탐색 - (GPS 기준)
-                        m_AndroidProgressDlg = ProgressDialog.show(m_Context, "Fire SDK", "경로 탐색 중...",
+                    }
+                    break;
+                    case 3 :{ // 경로탐색 - (GPS 기준)
+                        m_AndroidProgressDlg = ProgressDialog.show(m_Context, "Fatos SDK", "경로 탐색 중...",
                                 true, false);
 
-                        FMRoutePos endPos = new FMRoutePos();
-                        FMRouteOption routeOpt = new FMRouteOption();
+                        List<RoutePosition> positionList = m_FMInterface.FM_GetViaPOIList();
+                        positionList.clear();
 
-                        endPos.dLonX = 126.767723;
-                        endPos.dLatY =37.809287;
-                        endPos.strPosName = "모듈 지상";
-                        endPos.strFloor = "1F";
+                        RoutePosition positionList0 = new RoutePosition();
+                        positionList0.x = 0;
+                        positionList0.y = 0;
+                        positionList0.name = "출발지";
+                        positionList.add(positionList0);
 
-                        routeOpt.carType = 1; // 1은 임시 값
+                        RoutePosition positionList1 = new RoutePosition();
+//
+//                        positionList1.x = 127.46534606;
+//                        positionList1.y = 37.28005176;
+//                        positionList1.name = "이천시법원";
+//                        positionList1.addr = "경기 이천시 안흥동";
+//                        positionList1.bPassingPoint = false;
+//
+                        positionList1.x = 126.767723;
+                        positionList1.y = 37.809287;
+                        positionList1.name = "목적지";
+                        positionList1.addr = "경기 파주시 월릉면";
+                        positionList1.bPassingPoint = false;
 
-                        m_FMInterface.FM_RouteVol2_Hybrid(new HttpResultHandler(FatosMapBaseSDKActivity.this),null,endPos,routeOpt);
+                        positionList.add(positionList1);
 
-                        break;
-                    case 4: // 수동 재탐색
+//                        FMRoutePos endPos = new FMRoutePos();
+//                        FMRouteOption routeOpt = new FMRouteOption();
+//
+//                        endPos.dLonX = 126.767723;
+//                        endPos.dLatY = 37.809287;
+//                        endPos.strPosName = "모듈 지상";
+//                        endPos.strFloor = "1F";
+//
+//                        routeOpt.carType = 1; // 1은 임시 값
+
+//                        m_FMInterface.FM_RouteVol2_Hybrid(new HttpResultHandler(FatosMapBaseSDKActivity.this), null, endPos, routeOpt);
+                        m_FMInterface.FM_RouteVol2(new HttpResultHandler(FatosMapBaseSDKActivity.this), positionList);
+                    }
+                    break;
+                    case 4: { // 수동 재탐색
                         manualReRouteMenu();
                         FatosToast.ShowFatosYellow(getResources().getString(R.string.string_reroute_status));
-                        break;
-                    case 5: // 경로요약
+                    }
+                    break;
+                    case 5: { // 경로요약
                         ArrayList<RouteSummaryData> summaryData = m_FMInterface.FM_RouteSummary(FMBaseActivity.onFatosMapListener);
-                        break;
-                    case 6: // 경로안내시작
+                    }
+                    break;
+                    case 6: { // 경로안내시작
                         m_FMInterface.FM_StartRGService(FMBaseActivity.onFatosMapListener);
                         mapMoveCurrnetPostion();
-                        break;
-                    case 7: //경로선택
+                    }
+                    break;
+                    case 7: { //경로선택
                         m_FMInterface.FM_SelectRoute(FMInterface.ROUTE_OPTION1);
-                        break;
-                    case 8: // 경로 정보 가져오기
-                        ArrayList<RouteSummaryDataDetail> summaryDatas = m_FMInterface.FM_RouteSummaryDetail(0,0);
-                        break;
+                    }
+                    break;
+                    case 8: { // 경로 정보 가져오기
+                        ArrayList<RouteSummaryDataDetail> summaryDatas = m_FMInterface.FM_RouteSummaryDetail(0, 0);
+//                        Log.e(TAG,"summaryDatas : " +  summaryDatas.size());
+                    }
+                    break;
 
+                    case 9: { // 트럭 경탐
+
+                        m_AndroidProgressDlg = ProgressDialog.show(m_Context, "Fatos SDK", "경로 탐색 중...",
+                                true, false);
+
+                        List<RoutePosition> positionList = m_FMInterface.FM_GetViaPOIList();
+                        positionList.clear();
+
+                        RoutePosition positionList0 = new RoutePosition();
+                        positionList0.x = 0;
+                        positionList0.y = 0;
+                        positionList0.name = "출발지";
+                        positionList.add(positionList0);
+
+                        RoutePosition positionList1 = new RoutePosition();
+                        positionList1.x = 126.767723;
+                        positionList1.y = 37.809287;
+                        positionList1.name = "목적지";
+                        positionList1.addr = "경기 파주시 월릉면";
+                        positionList1.bPassingPoint = false;
+
+                        positionList.add(positionList1);
+
+                        //트럭 차량 정보 입력
+//                        weight  = 차량 중량(t) * 10
+//                        height  = 차량 높이(m) * 10
+//                        lenght  = 차량 길이(m)
+//                        uturn   = 차량 유턴가능 차선(2~8, 왕복차선)
+//                        cartype = 트럭 전용 차종, 0 : 위험물,고압가스, 1: 2.5t 미만, 2: 2.5~10t , 3: 5.5~10t, 4: 10~30톤, 5: 20t이상 , 6: 배기량 1000cc 미만 경차
+
+                        TruckInfo truckInfo = new TruckInfo(475,26,0,4,5);
+                        m_FMInterface.FM_RouteVol2ForTruck(new HttpResultHandler(FatosMapBaseSDKActivity.this), truckInfo, positionList);
+
+                    }
+                    break;
                 }
                 if(mSweetSheetforRoute.isShow())
                 {
@@ -672,6 +767,7 @@ public class FatosMapBaseSDKActivity extends FMBaseActivity implements OnFatosMa
         mSweetSheetforSearch.setOnMenuItemClickListener(new SweetSheet.OnMenuItemClickListener() {
             @Override
             public boolean onItemClick(int position, MenuEntity menuEntity1) {
+
                 if(position < 0)
                     return false;
 
@@ -680,10 +776,10 @@ public class FatosMapBaseSDKActivity extends FMBaseActivity implements OnFatosMa
                         m_FMInterface.FM_RecommendWord(new HttpResultHandler(FatosMapBaseSDKActivity.this),"ㄱ");
                         break;
                     case 1: // 전신주 검색
-
+                        //m_FMInterface.FM_SearchFireObj(FMInterface.BASEMAP_LAYER_FIRE_TELEPHONEPOLE,"64668308813281", 129.4531534784074,35.98985948898542);
                         break;
                     case 2: // 주소 검색
-
+                        //m_FMInterface.FM_SearchFireAddress("동상동","10", 129.4531534784074,35.98985948898542);
                         break;
                 }
                 if(mSweetSheetforSearch.isShow())
@@ -769,8 +865,8 @@ public class FatosMapBaseSDKActivity extends FMBaseActivity implements OnFatosMa
                 "### cur pos  : " + driveinfo.getM_strCurPosName()+ " \n" +
                 "### cur lonx : " + driveinfo.getM_fCurLonX()+ " \n" +
                 "### cur laty : " + driveinfo.getM_fCurLatY()+ " \n" +
-                "### maptouch lonx : " + driveinfo.getM_fMapTouchLonX()+ " \n" +
-                "### maptouch laty : " + driveinfo.getM_fMapTouchLatY()+ " \n" +
+//                "### maptouch lonx : " + driveinfo.getM_fMapTouchLonX()+ " \n" +
+//                "### maptouch laty : " + driveinfo.getM_fMapTouchLatY()+ " \n" +
                 "### angle : " + driveinfo.getM_nCurAngle()+ " \n" +
                 "### gpsStatus : " + driveinfo.getM_nGpsStatus()+ " \n" +
                 "### mmStatus : " + driveinfo.getM_nMMStatus()+ " \n" +
@@ -786,6 +882,9 @@ public class FatosMapBaseSDKActivity extends FMBaseActivity implements OnFatosMa
             strRgInfo += "### 경유지[" + i + "] 시간(초):" + driveinfo.getListViaRemainderTime()[i] +" \n";
             strRgInfo += "### 경유지[" + i + "] 거리(미터):" + driveinfo.getListViaRemainderDist()[i] +" \n";
         }
+
+        strRgInfo +=  "### 재탐색 :  " + m_nReRouteCount +" \n";
+        strRgInfo +=  "### 주탐  :  " + m_nReRouteCycleCount +" \n";
 
         m_txtRgInfo.setText(strRgInfo);
         Log.e(TAG,"### DriveInfo :" + strRgInfo);
@@ -931,18 +1030,32 @@ public class FatosMapBaseSDKActivity extends FMBaseActivity implements OnFatosMa
                         m_AndroidProgressDlg = ProgressDialog.show(m_Context, "Fire SDK", "경로 탐색 중...",
                                 true, false);
 
+//                        FMRoutePos endPos = new FMRoutePos();
+//                        FMRouteOption routeOpt = new FMRouteOption();
+//                        endPos.dLonX = searchResultPOI.get(position+1).getFrontLongitudeX();
+//                        endPos.dLatY =searchResultPOI.get(position+1).getFrontLatitudeY();
+//                        endPos.strPosName = searchResultPOI.get(position+1).getPOIName();
+//                        endPos.strFloor = "1F";
+//
+//                        routeOpt.carType = 1; // 1은 임시 값
 
-                        FMRoutePos endPos = new FMRoutePos();
-                        FMRouteOption routeOpt = new FMRouteOption();
+                        List<RoutePosition> positionList = m_FMInterface.FM_GetViaPOIList();
+                        positionList.clear();
 
-                        endPos.dLonX = searchResultPOI.get(position+1).getFrontLongitudeX();
-                        endPos.dLatY =searchResultPOI.get(position+1).getFrontLatitudeY();
-                        endPos.strPosName = searchResultPOI.get(position+1).getPOIName();
-                        endPos.strFloor = "1F";
+                        RoutePosition positionList0 = new RoutePosition();
+                        positionList0.x = 0;
+                        positionList0.y = 0;
+                        positionList0.name = "출발지";
+                        positionList.add(positionList0);
 
-                        routeOpt.carType = 1; // 1은 임시 값
+                        RoutePosition positionList1 = new RoutePosition();
+                        positionList1.x = searchResultPOI.get(position+1).getFrontLongitudeX();
+                        positionList1.y = searchResultPOI.get(position+1).getFrontLatitudeY();
+                        positionList1.name = searchResultPOI.get(position+1).getPOIName();
+                        positionList.add(positionList1);
 
-                        m_FMInterface.FM_RouteVol2_Hybrid(new HttpResultHandler(FatosMapBaseSDKActivity.this),null,endPos,routeOpt);
+//                        m_FMInterface.FM_RouteVol2_Hybrid(new HttpResultHandler(FatosMapBaseSDKActivity.this),null,endPos,routeOpt);
+                        m_FMInterface.FM_RouteVol2(new HttpResultHandler(FatosMapBaseSDKActivity.this),positionList);
 
                         if(mSearchResSweetSheet.isShow())
                         {
@@ -972,12 +1085,20 @@ public class FatosMapBaseSDKActivity extends FMBaseActivity implements OnFatosMa
         {
             mapMoveCurrnetPostion();
             boolean bLocal = msg.getData().getBoolean(ErrorMessage.COMM_TYPE);
-            FatosToast.ShowFatosYellow("FME_SUCCESS_ROUTE_SUCCESS : Local(" + bLocal+")");
+            if(bLocal){
+                FatosToast.ShowFatosYellow("FME_SUCCESS_ROUTE_SUCCESS : (Local)");
+            }else{
+                FatosToast.ShowFatosYellow("FME_SUCCESS_ROUTE_SUCCESS : (Center[Hybrid])");
+            }
         }
         else if(result.equals(FMError.FME_ERROR_ROUTE))
         {
             boolean bLocal = msg.getData().getBoolean(ErrorMessage.COMM_TYPE);
-            FatosToast.ShowFatosYellow("FME_ERROR_ROUTE : Local(" + bLocal+")");
+            if(bLocal){
+                FatosToast.ShowFatosYellow("FME_ERROR_ROUTE : (Local)");
+            }else{
+                FatosToast.ShowFatosYellow("FME_ERROR_ROUTE : (Center[Hybrid])");
+            }
         }
         else if(result.equals(FMError.FME_MESSAGE_FIX_SEARCH_SUCCESS))
         {
@@ -1005,8 +1126,8 @@ public class FatosMapBaseSDKActivity extends FMBaseActivity implements OnFatosMa
                     "### cur pos  : " + driveinfo.getM_strCurPosName()+ " \n" +
                     "### cur lonx : " + driveinfo.getM_fCurLonX()+ " \n" +
                     "### cur laty : " + driveinfo.getM_fCurLatY()+ " \n" +
-                    "### maptouch lonx : " + driveinfo.getM_fMapTouchLonX()+ " \n" +
-                    "### maptouch laty : " + driveinfo.getM_fMapTouchLatY()+ " \n" +
+//                    "### maptouch lonx : " + driveinfo.getM_fMapTouchLonX()+ " \n" +
+//                    "### maptouch laty : " + driveinfo.getM_fMapTouchLatY()+ " \n" +
                     "### angle : " + driveinfo.getM_nCurAngle()+ " \n" +
                     "### gpsStatus : " + driveinfo.getM_nGpsStatus()+ " \n" +
                     "### mmStatus : " + driveinfo.getM_nMMStatus()+ " \n" +
@@ -1024,7 +1145,8 @@ public class FatosMapBaseSDKActivity extends FMBaseActivity implements OnFatosMa
                 strRgInfo += "### 경유지[" + i + "] 시간(초):" + driveinfo.getListViaRemainderTime()[i] +" \n";
                 strRgInfo += "### 경유지[" + i + "] 거리(미터):" + driveinfo.getListViaRemainderDist()[i] +" \n";
             }
-
+            strRgInfo +=  "### 재탐색 :  " + m_nReRouteCount +" \n";
+            strRgInfo +=  "### 주탐  :  " + m_nReRouteCycleCount +" \n";
 
             m_txtRgInfo.setText(strRgInfo);
 

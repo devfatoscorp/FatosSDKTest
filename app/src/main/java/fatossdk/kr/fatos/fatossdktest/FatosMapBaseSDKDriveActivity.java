@@ -58,12 +58,12 @@ public class FatosMapBaseSDKDriveActivity extends FMBaseActivity implements FMBa
     }
 
     @Override
-    public void updatePickerInfo(String s, int i, int i1) {
+    public void updatePickerInfo(String strID, int nLong, int nLat) {
 
     }
 
     @Override
-    public void updateMapTouch(float v, float v1) {
+    public void updateMapTouch(float fX, float fY) {
 
     }
 }

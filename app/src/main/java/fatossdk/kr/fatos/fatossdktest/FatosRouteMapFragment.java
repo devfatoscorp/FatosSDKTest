@@ -81,9 +81,34 @@ public class FatosRouteMapFragment extends AMapBaseFragment
     }
 
     @Override
-    public void onUpdateMapLongTouch(float v, float v1) {
+    public void onUpdateMapLongTouch(float fX, float fY) {
 
     }
+
+    @Override
+    public void onUpdateTouchBegin(float fX, float fY) {
+
+    }
+
+    @Override
+    public void onUpdateTouchMove(float fX, float fY) {
+
+    }
+
+    @Override
+    public void onUpdateTouchEnd(float fX, float fY) {
+
+    }
+
+    @Override
+    public void onUpdate(FatosMainMapView.TouchInfo touchInfo) {
+
+    }
+
+//    @Override
+//    public void onUpdateMapTouch(float fX, float fY) {
+//
+//    }
 
     @Override
     public void onMapReady() {
@@ -99,6 +124,11 @@ public class FatosRouteMapFragment extends AMapBaseFragment
     public void moveMapCurrentPos() {
         if(mView != null)
             mView.mapMoveCurPos();
+    }
+
+    @Override
+    public void mapMoveAniReset() {
+
     }
 
     @Override
@@ -148,7 +178,7 @@ public class FatosRouteMapFragment extends AMapBaseFragment
     }
 
     @Override
-    public void onMapLevelInOut(float v, float v1) {
+    public void onMapLevelInOut(float fLevel, float fTilt) {
 
     }
 
